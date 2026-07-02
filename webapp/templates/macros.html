@@ -1,0 +1,45 @@
+{# Recursively render any value (dict / list / scalar) as nested Bootstrap tables.
+   This guarantees that *every* attribute returned by the API is shown in the GUI. #}
+
+{% macro render_value(value) %}
+  {% if value is mapping %}
+    <table class="table table-sm table-bordered mb-0 align-middle">
+      <tbody>
+        {% for key, val in value.items() %}
+          <tr>
+            <th class="text-nowrap text-muted w-25">{{ key }}</th>
+            <td>{{ render_value(val) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif value is string %}
+    {% if value|length > 120 %}
+      <details>
+        <summary class="text-truncate">{{ value[:120] }}…</summary>
+        <pre class="mb-0 mt-2 text-wrap">{{ value }}</pre>
+      </details>
+    {% else %}
+      <span>{{ value }}</span>
+    {% endif %}
+  {% elif value is boolean %}
+    <span class="badge {{ 'bg-success' if value else 'bg-secondary' }}">{{ value }}</span>
+  {% elif value is none %}
+    <span class="text-muted fst-italic">null</span>
+  {% elif value is iterable %}
+    {% if value|length == 0 %}
+      <span class="text-muted fst-italic">empty</span>
+    {% else %}
+      <div class="vstack gap-2">
+        {% for item in value %}
+          <div class="border-start border-3 ps-2">
+            <span class="badge bg-light text-dark border">#{{ loop.index }}</span>
+            {{ render_value(item) }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% else %}
+    <span>{{ value }}</span>
+  {% endif %}
+{% endmacro %}

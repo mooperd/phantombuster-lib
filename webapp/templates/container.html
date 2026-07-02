@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_value %}
+{% block title %}Container {{ container.id }} · Phantombuster Control{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('agents.index') }}">Agents</a></li>
+    <li class="breadcrumb-item active">Container {{ container.id }}</li>
+  </ol>
+</nav>
+
+<div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+  <h1 class="h3 mb-0">Container <code>{{ container.id }}</code></h1>
+  <span id="statusBadge" class="badge {{ status_badge(container.status) }} fs-6">{{ container.status }}</span>
+  <span class="badge {{ exit_badge(container.exitCode) }} fs-6">exit {{ container.exitCode if container.exitCode is not none else '—' }}</span>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card mb-4">
+      <div class="card-header fw-semibold">All container attributes</div>
+      <div class="card-body">{{ render_value(container) }}</div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">Console output</span>
+        <span id="livePill" class="badge bg-secondary d-none">live</span>
+      </div>
+      <div class="card-body p-0">
+        <pre id="output" class="bg-dark text-light p-3 mb-0 overflow-auto">{{ output.output or '(no output)' }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header fw-semibold">
+    Results
+    <span class="badge bg-primary">{{ result | length }} rows</span>
+  </div>
+  {% if result %}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-sm align-middle mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            {% for col in columns %}<th>{{ col }}</th>{% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in result %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              {% for col in columns %}
+                <td>
+                  {% set cell = row.get(col) %}
+                  {% if cell is string and cell.startswith('http') %}
+                    <a href="{{ cell }}" target="_blank" rel="noopener" class="text-truncate d-inline-block" title="{{ cell }}">{{ cell }}</a>
+                  {% elif cell is mapping or (cell is iterable and cell is not string) %}
+                    {{ render_value(cell) }}
+                  {% else %}
+                    {{ cell if cell is not none else '' }}
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="card-body text-muted">
+      No result rows. A finished run with no rows is normal — e.g. the LinkedIn scraper
+      reports “already retrieved all results from that search” and returns an empty result.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Poll live console output while the container is still running.
+  const containerId = {{ container.id | tojson }};
+  const runningStates = ["running", "starting", "launch"];
+  const initialStatus = {{ container.status | tojson }};
+
+  function isRunning(status) {
+    return status && runningStates.some(s => status.startsWith(s));
+  }
+
+  if (isRunning(initialStatus)) {
+    const pill = document.getElementById("livePill");
+    pill.classList.remove("d-none");
+    const badge = document.getElementById("statusBadge");
+    const pre = document.getElementById("output");
+
+    const timer = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/containers/${containerId}/output`);
+        const data = await res.json();
+        if (data.output) { pre.textContent = data.output; pre.scrollTop = pre.scrollHeight; }
+        if (data.status) { badge.textContent = data.status; }
+        if (!isRunning(data.status)) {
+          clearInterval(timer);
+          pill.classList.add("d-none");
+          location.reload();  // reload to pick up final results table
+        }
+      } catch (e) { /* keep polling */ }
+    }, 3000);
+  }
+</script>
+{% endblock %}

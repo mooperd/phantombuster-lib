@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_value %}
+{% block title %}{{ agent.name }} · Phantombuster Control{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('agents.index') }}">Agents</a></li>
+    <li class="breadcrumb-item active">{{ agent.name }}</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+  <div>
+    <h1 class="h3 mb-1">{{ agent.name }}</h1>
+    <div class="text-muted"><code>{{ agent.id }}</code> · {{ agent.script }}</div>
+  </div>
+  <div class="d-flex gap-2">
+    <form method="post" action="{{ url_for('agents.launch', agent_id=agent.id) }}" class="input-group input-group-sm w-auto"
+          onsubmit="return confirm('Launch this agent? This consumes execution time and may scrape live data.');">
+      <span class="input-group-text">cap</span>
+      <input type="number" min="1" name="cap" value="5" class="form-control"
+             title="Cap results per launch (bonusArgument)">
+      <button type="submit" class="btn btn-success"><i class="bi bi-play-fill"></i> Launch</button>
+    </form>
+    <form method="post" action="{{ url_for('agents.abort', agent_id=agent.id) }}"
+          onsubmit="return confirm('Abort running containers for this agent?');">
+      <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-stop-fill"></i> Abort</button>
+    </form>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card mb-4">
+      <div class="card-header fw-semibold">All agent attributes</div>
+      <div class="card-body">
+        {{ render_value(redact(agent)) }}
+      </div>
+      <div class="card-footer small text-muted">Secrets (session cookies, tokens) are masked.</div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card mb-4">
+      <div class="card-header fw-semibold">Parsed argument</div>
+      <div class="card-body">
+        {% if argument %}
+          {{ render_value(redact(argument)) }}
+        {% else %}
+          <span class="text-muted">No argument configured.</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header fw-semibold">Run history ({{ containers | length }})</div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Container ID</th>
+          <th>Status</th>
+          <th>Exit</th>
+          <th>End type</th>
+          <th>Launch type</th>
+          <th>Created</th>
+          <th>Ended</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in containers %}
+          <tr>
+            <td><code>{{ c.id }}</code></td>
+            <td><span class="badge {{ status_badge(c.status) }}">{{ c.status }}</span></td>
+            <td><span class="badge {{ exit_badge(c.exitCode) }}">{{ c.exitCode if c.exitCode is not none else '—' }}</span></td>
+            <td>{{ c.endType or '—' }}</td>
+            <td>{{ c.launchType or '—' }}</td>
+            <td class="small">{{ c.createdAt | ms }}</td>
+            <td class="small">{{ c.endedAt | ms }}</td>
+            <td class="text-end"><a href="{{ url_for('containers.detail', container_id=c.id) }}" class="btn btn-sm btn-outline-primary">View</a></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="8" class="text-muted">No runs yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

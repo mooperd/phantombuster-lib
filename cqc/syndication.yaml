@@ -1,0 +1,1423 @@
+openapi: 3.0.1
+info:
+  title: Syndication
+  description: "CQC Syndication API provides details about the services and data accessible through this API, along with information that will show you how to begin integration with your platform.\nCQC Syndication is a collection of REST APIs that exposes the ability for customers and providers to provider interactions into CQCs systems and processes."
+  version: '1.0'
+servers:
+  - url: https://api.service.cqc.org.uk/public/v1
+  - url: https://api-management.service.cqc.org.uk/public/v1
+paths:
+  '/locations/{id}':
+    get:
+      tags:
+        - Syndication
+        - Location
+        - Organization Details
+      summary: Get Location By Id
+      description: The Get Location by id endpoint allows consumers to get the location assessment details for given location id
+      operationId: get-location-by-id-assessment
+      parameters:
+        - name: id
+          in: path
+          description: The organisation Id of the location.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-1023565868
+      responses:
+        '200':
+          description: "A Provider Location is an organisation that is a site where a Provider operates.\n\nLocation.\n\nExample with all fields.\n\nIf a new assessment is carried out for the location, then the current rating will become historic and new assessment record will be added."
+          content:
+            application/json:
+              example:
+                locationId: 1-123456789
+                providerId: 1-987654321
+                organisationType: Location
+                type: Primary Medical Services
+                name: Sample Hill Medical Centre
+                brandId: 1-876543219
+                brandName: Sample Hill
+                onspdCcgCode: E01000001
+                onspdCcgName: Lewisham and Greenwich NHS Trust
+                odsCcgCode: C01
+                odsCcgName: Lewisham and Greenwich NHS Trust
+                onspdIcbCode: E54000013
+                onspdIcbName: NHS Lincolnshire Integrated Care Board
+                odsCode: N12345
+                registrationStatus: Registered
+                registrationDate: '2013-04-01'
+                deregistrationDate: ''
+                dormancy: ''
+                dormancyStartDate: ''
+                dormancyEndDate: ''
+                alsoKnownAs: ''
+                onspdLatitude: 50.123456
+                onspdLongitude: -5.123456
+                careHome: N
+                inspectionDirectorate: Primary Medical
+                website: www.royalfree.nhs.uk
+                postalAddressLine1: 1 Sample Road
+                postalAddressLine2: ''
+                postalAddressTownCity: London
+                postalAddressCounty: ''
+                region: London
+                postalCode: SW19 3AA
+                uprn: '12345689012'
+                mainPhoneNumber: '02081234567'
+                registeredManagerAbsentDate: '2013-05-25'
+                numberOfBeds: 4
+                constituency: Greenwich
+                localAuthority: Merton
+                lastInspection:
+                  date: '2023-01-10'
+                lastReport:
+                  publicationDate: '2014-09-17'
+                relationships:
+                  - relatedLocationId: 1-234567890
+                    relatedLocationName: Sample Hill Clinic
+                    type: HSCA Predecessor
+                    reason: NHS Transfer
+                locationTypes:
+                  - type: GP Practice
+                regulatedActivities:
+                  - name: Maternity and midwifery services
+                    code: RA11
+                    contacts:
+                      - personTitle: Dr
+                        personGivenName: Ravindrabhai
+                        personFamilyName: Patel
+                        personRoles:
+                          - Registered Manager
+                gacServiceTypes:
+                  - name: Doctors consultation service
+                    description: ''
+                specialisms:
+                  - name: Services for everyone
+                inspectionCategories:
+                  - primary: Y
+                    code: H1
+                    name: Acute hospital - NHS non-specialist
+                  - primary: Y
+                    code: H9
+                    name: Mental health - community &amp; residential - NHS
+                inspectionAreas:
+                  - inspectionAreaId: maternity
+                    inspectionAreaName: Maternity and gynaecology
+                    inspectionAreaType: Inspection Service
+                    status: Superseded
+                    supersededBy:
+                      - independentmaternity
+                  - inspectionAreaId: independentmaternity
+                    inspectionAreaName: Maternity
+                    inspectionAreaType: Inspection Service
+                    status: Active (Rated)
+                  - inspectionAreaId: mhpsychiatric
+                    inspectionAreaName: Urgent care centre
+                    inspectionAreaType: Inspection Service
+                    status: Inactive
+                    endDate: '2020-12-31'
+                currentRatings:
+                  overall:
+                    organisationId: ''
+                    rating: Good
+                    reportDate: '2022-01-01'
+                    reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    useOfResources:
+                      organisationId: ''
+                      summary: <p>
+                      useOfResourcesRating: Good
+                      combinedQualitySummary: <p>
+                      combinedQualityRating: Good
+                      reportDate: '2022-01-01'
+                      reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    keyQuestionRatings:
+                      - name: Safe
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Well-led
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Caring
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Responsive
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Effective
+                        rating: Good
+                        reportDate: '2020-01-01'
+                        organisationId: 1-234567890
+                        reportLinkId: d7ae67ad-331a-43c8-b343-c24bf719df94
+                  serviceRatings:
+                    - name: psychiatric
+                      rating: Good
+                      reportDate: '2020-01-01'
+                      organisationId: 1-234567890
+                      reportLinkId: d7ae67ad-331a-43c8-b343-c24bf719df94
+                    - name: care
+                      rating: Good
+                      reportDate: '2021-01-01'
+                      reportLinkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                    - name: independentmaternity
+                      rating: Good
+                      reportDate: '2022-01-01'
+                      reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      keyQuestionRatings:
+                        - name: Responsive
+                          rating: Good
+                        - name: Well-led
+                          rating: Outstanding
+                historicRatings:
+                  - reportDate: '2019-01-01'
+                    reportLinkId: c89de054-bacd-4ad6-a540-0a65665d5117
+                    organisationId: 1-234567890
+                    serviceRatings:
+                      - name: maternity
+                        rating: Good
+                        keyQuestionRatings:
+                          - name: Responsive
+                            rating: Outstanding
+                          - name: Well-led
+                            rating: Good
+                  - reportDate: '2021-01-01'
+                    reportLinkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                    overall:
+                      rating: Good
+                      useOfResources:
+                        useOfResourcesSummary: <p>
+                        useOfResourcesRating: Good
+                        combinedQualitySummary: <p>
+                        combinedQualityRating: Good
+                      keyQuestionRatings:
+                        - name: Safe
+                          rating: Good
+                        - name: Well-led
+                          rating: Good
+                        - name: Caring
+                          rating: Good
+                        - name: Responsive
+                          rating: Good
+                reports:
+                  - linkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    reportDate: '2021-01-01'
+                    firstVisitDate: '2020-11-01'
+                    reportUri: /reports/e9b6469f-97da-4f19-bd28-93b1247e68732
+                    reportType: Location
+                  - linkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    reportDate: '2022-01-01'
+                    firstVisitDate: '2021-11-01'
+                    reportUri: /reports/f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    reportType: Location
+                    relatedDocuments:
+                      - documentUri: /reports/f4fdb42e-7d01-44b6-9ad7-da130cf04273/Use%20of%20Resources
+                        documentType: Use of Resources
+                unpublishedReports:
+                  - firstVisitDate: ''
+                providerInspectionAreas:
+                  - inspectionAreaId: mhchildrenandyoung
+                    reports:
+                      - inspectionId: SPL1-90000
+                        reportLinkId: dsdsdsdsdsds
+                        providerId: 1-123456789
+                        locationId: 1-987654321
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/providers/{id}':
+    get:
+      tags:
+        - Syndication
+        - Organization Details
+        - Provider
+      summary: Get Provider By Id
+      description: The Get Provider by id endpoint allows consumers to get the provider assessment details for given provider id
+      operationId: get-provider-by-id-assessment
+      parameters:
+        - name: id
+          in: path
+          description: The organisation Id of the provider.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-101604141
+      responses:
+        '200':
+          description: "Provider\n\nAn organisation that is a provider of health and social care services.\n\nIf a new assessment is carried out for the provider, then the current rating will become historic and new assessment record will be added."
+          content:
+            application/json:
+              example:
+                providerId: 1-345678912
+                locationIds:
+                  - 1-987654321
+                  - 1-876543212
+                organisationType: Provider
+                ownershipType: NHS Body
+                type: NHS Healthcare Organisation
+                name: Sample Teaching Hospitals NHS Foundation Trust
+                brandId: ABC123
+                brandName: Sample Hill
+                odsCode: N23456
+                registrationStatus: Registered
+                registrationDate: '2012-04-01'
+                companiesHouseNumber: '12345678'
+                charityNumber: '123456'
+                website: www.samplehospitals.nhs.uk
+                postalAddressLine1: 'Trust Headquarters, Example Hospital'
+                postalAddressLine2: Example Road
+                postalAddressTownCity: Blackpool
+                postalAddressCounty: Lancashire
+                region: North West
+                postalCode: FY3 8RN
+                alsoKnownAs: ''
+                deregistrationDate: ''
+                uprn: '123456789012'
+                onspdLatitude: 53.123456
+                onspdLongitude: -2.123456
+                onspdIcbCode: E54000031
+                onspdIcbName: NHS South West London Integrated Care Board
+                mainPhoneNumber: '01253301234'
+                inspectionDirectorate: Hospitals
+                constituency: Blackpool North and Cleveleys
+                localAuthority: Blackpool
+                lastInspection:
+                  date: '2021-11-01'
+                lastReport:
+                  publicationDate: '2022-01-01'
+                contacts:
+                  - personTitle: Mrs
+                    personGivenName: Sarah
+                    personFamilyName: Smith
+                    personRoles:
+                      - Partner
+                relationships:
+                  - relatedProviderId: 1-678912345
+                    relatedProviderName: Example Teaching PCT
+                    type: HSCA Predecessor
+                    reason: NHS Transfer
+                regulatedActivities:
+                  - name: Maternity and midwifery services
+                    code: RA11
+                    nominatedIndividual:
+                      personTitle: Ms
+                      personGivenName: Mary
+                      personFamilyName: Jones
+                  - name: Termination of pregnancies
+                    code: RA12
+                    nominatedIndividual:
+                      personTitle: Ms
+                      personGivenName: Mary
+                      personFamilyName: Jones
+                inspectionCategories:
+                  - code: H1
+                    primary: 'true'
+                    name: Acute hospital - NHS non-specialist
+                  - code: H6
+                    name: Community health - NHS & Independent
+                inspectionAreas:
+                  - inspectionAreaId: maternity
+                    inspectionAreaName: Maternity and gynaecology
+                    inspectionAreaType: Inspection Service
+                    status: Superseded
+                    supersededBy:
+                      - independentmaternity
+                  - inspectionAreaId: independentmaternity
+                    inspectionAreaName: Maternity
+                    inspectionAreaType: Inspection Service
+                    status: Active (Rated)
+                  - inspectionAreaId: mhpsychiatric
+                    inspectionAreaName: Urgent care centre
+                    status: Inactive
+                    endDate: '2020-12-31'
+                currentRatings:
+                  overall:
+                    rating: Good
+                    reportDate: '2022-01-01'
+                    reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    useOfResources:
+                      useOfResourcesSummary: <p>
+                      useOfResourcesRating: Good
+                      combinedQualitySummary: <p>
+                      combinedQualityRating: Good
+                      reportDate: '2022-01-01'
+                      reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    keyQuestionRatings:
+                      - name: Safe
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Well-led
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Caring
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Responsive
+                        rating: Good
+                        reportDate: '2022-01-01'
+                        reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      - name: Effective
+                        rating: Good
+                        reportDate: '2020-01-01'
+                        organisationId: 1-234567890
+                        reportLinkId: d7ae67ad-331a-43c8-b343-c24bf719df94
+                  serviceRatings:
+                    - name: psychiatric
+                      rating: Good
+                      reportDate: '2020-01-01'
+                      organisationId: 1-234567890
+                      reportLinkId: d7ae67ad-331a-43c8-b343-c24bf719df94
+                    - name: care
+                      rating: Good
+                      reportDate: '2021-01-01'
+                      reportLinkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                      keyQuestionRatings:
+                        - name: Caring
+                          rating: Requires improvement
+                        - name: Responsive
+                          rating: Requires improvement
+                    - name: independentmaternity
+                      rating: Good
+                      reportDate: '2022-01-01'
+                      reportLinkId: f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                      keyQuestionRatings:
+                        - name: Effective
+                          rating: Good
+                        - name: Well-led
+                          rating: Good
+                historicRatings:
+                  - reportDate: '2019-01-01'
+                    reportLinkId: c89de054-bacd-4ad6-a540-0a65665d5117
+                    organisationId: 1-234567890
+                    serviceRatings:
+                      - name: urgent
+                        rating: Good
+                        keyQuestionRatings:
+                          - name: Responsive
+                            rating: Inadequate
+                  - reportDate: '2021-01-01'
+                    reportLinkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                    overall:
+                      rating: Good
+                      useOfResources:
+                        useOfResourcesSummary: <p>
+                        useOfResourcesRating: Good
+                        combinedQualitySummary: <p>
+                        combinedQualityRating: Good
+                      keyQuestionRatings:
+                        - name: Safe
+                          rating: Good
+                        - name: Well-led
+                          rating: Good
+                        - name: Caring
+                          rating: Good
+                        - name: Responsive
+                          rating: Good
+                    serviceRatings:
+                      - name: accident
+                        rating: Good
+                        keyQuestionRatings:
+                          - name: Responsive
+                            rating: Inadequate
+                          - name: Well-led
+                            rating: Good
+                reports:
+                  - linkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                    reportDate: '2021-01-01'
+                    firstVisitDate: '2020-11-01'
+                    reportUri: /reports/e9b6469f-97da-4f19-bd28-93b1247e68732
+                    reportType: Provider
+                    inspectionLocations:
+                      - locationId: sdsdsd
+                  - linkId: e9b6469f-97da-4f19-bd28-93b1247e68732
+                    reportDate: '2022-01-01'
+                    firstVisitDate: '2021-11-01'
+                    reportUri: /reports/f4fdb42e-7d01-44b6-9ad7-da130cf04273
+                    reportType: Provider
+                    relatedDocuments:
+                      - documentUri: /reports/f4fdb42e-7d01-44b6-9ad7-da130cf04273/Use%20of%20Resources
+                        documentType: Use of Resources
+                unpublishedReports:
+                  - firstVisitDate: ''
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/providers/{id}/assessment-service-groups':
+    get:
+      tags:
+        - Syndication
+        - Organization Details
+        - Provider
+      summary: Get Providers AssessmentServiceGroups
+      description: The Get Providers by assessmentservicegroups endpoint allows consumers to get the location assessment details for given location id
+      operationId: get-providers-by-assessmentservicegroups
+      parameters:
+        - name: id
+          in: path
+          description: The organisation Id of the provider.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'The list of assessment service group covered by services which have been assessed at the organisation. Assessment service group include assessment publish date, assessment service group ratings and key questions.'
+          content:
+            application/json:
+              example:
+                assessmentServiceGroup:
+                  - assessmentServiceId: asg-001
+                    assessmentServiceName: Care Homes
+                    status: Active
+                    startDate: '2023-05-16'
+                    endDate: ''
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/locations/{id}/assessment-service-groups':
+    get:
+      tags:
+        - Syndication
+        - Location
+        - Organization Details
+      summary: Get Location AssessmentServiceGroups
+      description: The Get Location by assessmentservicegroups endpoint allows consumers to get the location assessment details for given location id
+      operationId: get-location-by-assessmentservicegroups
+      parameters:
+        - name: id
+          in: path
+          description: The organisation Id of the location.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-9932121789
+      responses:
+        '200':
+          description: 'The list of assessment service group covered by services which have been assessed at the organisation. Assessment service group include assessment publish date, assessment service group ratings and key questions.'
+          content:
+            application/json:
+              example:
+                assessmentServiceGroup:
+                  - assessmentServiceId: asg-001
+                    assessmentServiceName: Care Homes
+                    status: Active
+                    startDate: '2023-05-16'
+                    endDate: ''
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/changes/{organisationType}':
+    get:
+      tags:
+        - Syndication
+        - Changes
+      summary: Get Changes Within Timeframe
+      description: "The Changes service provides a mechanism of staying informed about updates to providers and locations, to allow users to refresh their cached data if necessary. Changes for two organisation types are available: provider or location. API consumers must specify a start and end date range, see the API reference for more detail. This service allows identification of which organisations have changed over time. For successive calls to this service, the startTime parameter should be set to the endTime of the previous call. The times correspond to the time that this service itself acquires the data and is not, for example, the time of data entry onto a source system.\n\nGrants ability to retrieve a list of organisations of the given type that have changed in given timeframe."
+      operationId: get-changes-within-timeframe
+      parameters:
+        - name: organisationType
+          in: path
+          description: The type of object for which to get a list of changes. Allowed values are location or provider.
+          required: true
+          schema:
+            enum:
+              - location
+              - provider
+            type: string
+          examples:
+            organisationType:
+              value: location or provider
+        - name: startTimestamp
+          in: query
+          description: ISO 8601 timestamp. The period is inclusive of the start time.
+          required: true
+          schema:
+            type: string
+          examples:
+            startTimestamp:
+              value: '2024-01-01T12:00:00.0000000+00:00'
+        - name: endTimestamp
+          in: query
+          description: 'ISO 8601 timestamp for the end of the time period. The period is exclusive of the end time, so only changes before this time are included.'
+          required: true
+          schema:
+            type: string
+          examples:
+            endTimestamp:
+              value: '2024-01-15T12:00:00.0000000+00:00'
+        - name: page
+          in: query
+          description: The page to be returned.
+          schema:
+            type: integer
+          examples:
+            page:
+              value: 1
+        - name: perPage
+          in: query
+          description: 'The number of items to return, per page.'
+          schema:
+            type: integer
+          examples:
+            perPage:
+              value: 50
+      responses:
+        '200':
+          description: A list of changes to Providers or Locations
+          content:
+            application/json:
+              example:
+                total: 1
+                page: 1
+                totalPages: 1
+                perPage: 10
+                previousPageUri: 
+                nextPageUri: 
+                firstPageUri: /changes/location?page=1&perPage=10&startTimestamp=2015-01-01T02:33:20Z&endTimestamp=2015-02-01T02:33:20Z
+                lastPageUri: /changes/location?page=1&perPage=10&startTimestamp=2015-01-01T02:33:20Z&endTimestamp=2015-02-01T02:33:20Z
+                changes:
+                  - 1-293028586
+                uri: /changes/location
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  /providers:
+    get:
+      tags:
+        - Syndication
+        - Provider
+      summary: Get Providers
+      description: 'Retrieve the list of providers. Providers are organisations that carry out health and social care services, and are regulated by CQC. Query parameters may be added to the URL which are filters so that the response will only include organisations with attributes matching the required value(s). The available filters are listed in the "Query parameters" section below. If the same query parameter is repeated in the URL with different values organisations will be returned which match any of the values. If there are combinations of different query parameters, e.g. region and overallRating, then organisations which match both sets of values are returned. For example, /providers?region=London&region=South%20west&overallRating=Outstanding will return organisations which have a current "Outstanding" overall rating and which have a region of "London" or "South west".'
+      operationId: get-providers
+      parameters:
+        - name: constituency
+          in: query
+          description: Include only organisations with a Constituency (constituency attribute) matching one of the values of this parameter. e.g "Greenwich" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: localAuthority
+          in: query
+          description: Include only organisations with a Local Authority (localAuthority attribute) matching one of the values of this parameter. e.g. "Merton" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: inspectionDirectorate
+          in: query
+          description: Include only organisations with a Inspection Directorate (inspectionDirectorate attribute) matching one of the values of this parameter. e.g. "Hospitals" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: nonPrimaryInspectionCategoryCode
+          in: query
+          description: Include only organisations with a Non-Primary Inspection Category Code (inspectionCategories.code attribute where inspectionCategories.primary="N") matching one of the values of this parameter. e.g. "H2". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: nonPrimaryInspectionCategoryName
+          in: query
+          description: Include only organisations with a Non-Primary Inspection Category Name (inspectionCategories.name attribute where inspectionCategories.primary="N") matching one of the values of this parameter. e.g. "Acute hospital - NHS specialist". e.g. "Acute hospital - NHS specialist" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: primaryInspectionCategoryCode
+          in: query
+          description: Include only organisations with a Primary Inspection Category Code (inspectionCategories.code attribute where inspectionCategories.primary="Y") matching one of the values of this parameter. e.g. "H2". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: primaryInspectionCategoryName
+          in: query
+          description: Include only organisations with a Primary Inspection Category Name (inspectionCategories.name attribute where inspectionCategories.primary="Y") matching one of the values of this parameter. e.g. "Acute hospital - NHS specialist". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: overallRating
+          in: query
+          description: Include only organisations with a Current Overall Rating (currentRatings.overall.rating attribute) matching one of the values of this parameter. e.g. "Good" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: region
+          in: query
+          description: Include only organisations with a Region (region attribute) matching one of the values of this parameter. e.g. "London" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: regulatedActivity
+          in: query
+          description: 'Include only organisations with a Regulated Activity (regulatedActivities.name attribute) e.g. "Maternity and midwifery services", matching one of the values of this parameter. See method description above for more on using search parameters.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: reportType
+          in: query
+          description: 'Include only organisations with a Report Type (attribute) matching one of the values of this parameter. e.g. "Location", "Provider" or "CoreService". See method description above for more on using search parameters.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: perPage
+          in: query
+          description: 'The number of items to return, per page.'
+          schema:
+            type: integer
+          examples:
+            perPage:
+              value: 50
+        - name: page
+          in: query
+          description: The page to be returned.
+          schema:
+            type: integer
+          examples:
+            page:
+              value: 1
+      responses:
+        '200':
+          description: "Providers List\n\nA list of providers"
+          content:
+            application/json:
+              example:
+                total: 50632
+                firstPageUri: /providers?page=1&perPage=10
+                page: 1
+                previousPageUri: 
+                lastPageUri: /providers?page=5064&perPage=10
+                nextPageUri: /providers?page=2&perPage=10
+                perPage: 10
+                totalPages: 5064
+                providers:
+                  - providerId: 1-1012154007
+                    providerName: Care Home ABC
+                  - providerId: 1-1012339676
+                    providerName: Care Home BCD
+                  - providerId: 1-1016904908
+                    providerName: Care Home CDE
+                  - providerId: 1-1016936626
+                    providerName: Care Home DEF
+                  - providerId: 1-1016936648
+                    providerName: Care Home EFG
+                  - providerId: 1-1019617396
+                    providerName: Care Home FGH
+                  - providerId: 1-1019617418
+                    providerName: Care Home GHI
+                  - providerId: 1-1019617438
+                    providerName: Care Home HIJ
+                  - providerId: 1-1019618050
+                    providerName: Care Home IJK
+                  - providerId: 1-1019618127
+                    providerName: Care Home JKL
+                uri: /providers
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  /locations:
+    get:
+      tags:
+        - Syndication
+        - Location
+      summary: Get Locations
+      description: 'Retrieve a list of locations. Locations are sites where a Provider operates. Query parameters may be added to the URL which are filters so that the response will only include organisations with attributes matching the required value(s). The available filters are listed in the "Query parameters" section below. If the same query parameter is repeated in the URL with different values organisations will be returned which match any of the values. If there are combinations of different query parameters, e.g. region and overallRating, then organisations which match both sets of values are returned. For example, /locations?region=London&region=South%20west&overallRating=Outstanding will return organisations which have a current "Outstanding" overall rating and which have a region of "London" or "South west".'
+      operationId: get-locations
+      parameters:
+        - name: careHome
+          in: query
+          description: Include only locations where the value of the attribute careHome matches one of the values of this parameter (Y or N). See method description for how to use search parameters.
+          schema:
+            type: string
+        - name: onspdCcgCode
+          in: query
+          description: Include only locations where the ONSPD CCG code (onspdCcgCode) of the geographic area covering the Location's postcode matches one of the values of this parameter. See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: onspdCcgName
+          in: query
+          description: Include only locations where the ONSPD CCG name (onspdCcgName) of the geographic area covering the Location's postcode matches one of the values of this parameter. See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: odsCcgCode
+          in: query
+          description: Include only locations where the ODS code (odsCcgCode) of the CCG selected by this organisation is known and matches one of the values of this parameter. See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: odsCcgName
+          in: query
+          description: Include only locations where the ODS name (odsCcgName) of the CCG selected by this organisation is known and matches one of the values of this parameter. See method description for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: gacServiceTypeDescription
+          in: query
+          description: Include only organisations with a GAC Service Type Description (gacServiceTypes.description) matching one of more values of this parameter. e.g. "Hospital". See method description for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: constituency
+          in: query
+          description: Include only organisations with a Constituency (constituency attribute) matching one of the values of this parameter. e.g "Greenwich" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: localAuthority
+          in: query
+          description: Include only organisations with a Local Authority (localAuthority attribute) matching one of the values of this parameter. e.g. "Merton" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: inspectionDirectorate
+          in: query
+          description: Include only organisations with a Inspection Directorate (inspectionDirectorate attribute) matching one of the values of this parameter. e.g. "Hospitals" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: nonPrimaryInspectionCategoryCode
+          in: query
+          description: Include only organisations with a Non-Primary Inspection Category Code (inspectionCategories.code attribute where inspectionCategories.primary="N") matching one of the values of this parameter. e.g. "H2". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: nonPrimaryInspectionCategoryName
+          in: query
+          description: Include only organisations with a Non-Primary Inspection Category Name (inspectionCategories.name attribute where inspectionCategories.primary="N") matching one of the values of this parameter. e.g. "Acute hospital - NHS specialist". e.g. "Acute hospital - NHS specialist" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: primaryInspectionCategoryCode
+          in: query
+          description: Include only organisations with a Primary Inspection Category Code (inspectionCategories.code attribute where inspectionCategories.primary="Y") matching one of the values of this parameter. e.g. "H2". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: primaryInspectionCategoryName
+          in: query
+          description: Include only organisations with a Primary Inspection Category Name (inspectionCategories.name attribute where inspectionCategories.primary="Y") matching one of the values of this parameter. e.g. "Acute hospital - NHS specialist". See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: overallRating
+          in: query
+          description: Include only organisations with a Current Overall Rating (currentRatings.overall.rating attribute) matching one of the values of this parameter. e.g. "Good" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: region
+          in: query
+          description: Include only organisations with a Region (region attribute) matching one of the values of this parameter. e.g. "London" See method description above for more on using search parameters.
+          schema:
+            type: array
+            items:
+              type: string
+        - name: regulatedActivity
+          in: query
+          description: 'Include only organisations with a Regulated Activity (regulatedActivities.name attribute) e.g. "Maternity and midwifery services", matching one of the values of this parameter. See method description above for more on using search parameters.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: reportType
+          in: query
+          description: 'Include only organisations with a Report Type (attribute) matching one of the values of this parameter. e.g. "Location", "Provider" or "CoreService". See method description above for more on using search parameters.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: The page to be returned.
+          schema:
+            type: integer
+          examples:
+            page:
+              value: 1
+        - name: perPage
+          in: query
+          description: 'The number of items to return, per page.'
+          schema:
+            type: integer
+          examples:
+            perPage:
+              value: 50
+      responses:
+        '200':
+          description: "Locations List\n\nA list of locations"
+          content:
+            application/json:
+              example:
+                total: 50632
+                firstPageUri: /locations?page=1&perPage=10
+                page: 1
+                previousPageUri: 
+                lastPageUri: /locations?page=5064&perPage=10
+                nextPageUri: /locations?page=2&perPage=10
+                perPage: 10
+                totalPages: 5064
+                locations:
+                  - locationId: 1-1012339676
+                    locationName: Provider location 1
+                    postalCode: AB1 2CD
+                  - locationId: 1-1016904908
+                    locationName: Provider location 2
+                    postalCode: AB1 2CD
+                  - locationId: 1-1016936626
+                    locationName: Provider location 3
+                    postalCode: AB1 2CD
+                  - locationId: 1-1016936648
+                    locationName: Provider location 4
+                    postalCode: AB1 2CD
+                  - locationId: 1-1019617396
+                    locationName: Provider location 5
+                    postalCode: AB1 2CD
+                  - locationId: 1-1019617418
+                    locationName: Provider location 6
+                    postalCode: AB1 2CD
+                  - locationId: 1-1019617438
+                    locationName: Provider location 7
+                    postalCode: AB1 2CD
+                  - locationId: 1-1019618050
+                    locationName: Provider location 8
+                    postalCode: AB1 2CD
+                  - locationId: 1-1019618127
+                    locationName: Provider location 9
+                    postalCode: AB1 2CD
+                uri: /locations
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/locations/{id}/inspection-areas':
+    get:
+      tags:
+        - Syndication
+        - Location
+        - Inspection Areas
+      summary: Get Location Inspection Areas
+      description: 'Retrieve the list of Inspection Areas which have been inspected at this organisation excluding any that may have been globally retired (covering services no longer inspected by CQC). Although an Inspection area may be Superseded globally for the purpose of new inspections, it will remain active (along with the ratings for that area) at a given organisation until it has been re-inspected under the superseding inspection area(s).'
+      operationId: get-location-inspection-areas
+      parameters:
+        - name: id
+          in: path
+          description: The organisation The organisation Id of the location.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-1023565868
+      responses:
+        '200':
+          description: "Inspection Areas.\n\nThe list of Inspection areas covered by services which have been inspected at the organisation. Inspection areas include services and population groups."
+          content:
+            application/json:
+              example:
+                inspectionAreas:
+                  - inspectionAreaId: accident
+                    inspectionAreaName: Urgent care centre
+                    status: Inactive
+                    endDate: '2020-12-31'
+                  - inspectionAreaId: independentmaternity
+                    inspectionAreaName: Maternity
+                    status: Active (Rated)
+                  - inspectionAreaId: maternity
+                    inspectionAreaName: Maternity and gynaecology
+                    status: Superseded
+                    supersededBy:
+                      - independentmaternity
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/providers/{id}/locations':
+    get:
+      tags:
+        - Syndication
+        - Provider
+      summary: Get Provider Locations
+      description: 'Retrieve the list of locations for this provider. Locations are sites where a Provider operates. Some Providers will have only one location, whereas others may have many.'
+      operationId: get-provider-locations
+      parameters:
+        - name: id
+          in: path
+          description: The organisation The organisation Id of the provider.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-101604141
+      responses:
+        '200':
+          description: A list of locations belonging to a provider.
+          content:
+            application/json:
+              example:
+                locations:
+                  - organisationId: 1-498863690
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Not found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/locations/{id}/provider-inspection-areas':
+    get:
+      tags:
+        - Syndication
+        - Location
+        - Inspection Areas
+      summary: Get Provider Inspection Areas By Location Id
+      description: 'Retrieve the list of Provider Inspection Areas which have been inspected for this organisation at Provider level, excluding any that may have been globally retired (covering services no longer inspected by CQC). Although an Inspection area may be Superseded globally for the purpose of new inspections, it will remain active (along with the ratings for that area) at a given organisation until it has been re-inspected under the superseding inspection area(s).'
+      operationId: get-provider-inspection-areas-by-location-id
+      parameters:
+        - name: id
+          in: path
+          description: The organisation The organisation Id of the location.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-1023565868
+      responses:
+        '200':
+          description: The list of Inspection areas covered by services which have been inspected at provider level. Inspection areas include services and population groups.
+          content:
+            application/json:
+              example:
+                providerInspectionAreas:
+                  - inspectionAreaId: pediatric
+                    reports:
+                      - inspectionId: SPL-1-INS
+                        reportLinkId: 60f66668-e4e9-4ee5-af2a-abd94beea10b
+                        providerId: '000476'
+                        locationId: '000477'
+                      - inspectionId: SPL-3-INS
+                        reportLinkId: b54dbc27-bdfd-4e9c-a2fa-0ef013606844
+                        providerId: '000476'
+                        locationId: '000477'
+                      - inspectionId: SPL-4-INS
+                        reportLinkId: 5363da31-3f7e-4878-add8-07aa7bb655d2
+                        providerId: '000476'
+                        locationId: '000477'
+                      - inspectionId: SPL-2-INS
+                        reportLinkId: 672f1147-0c42-41f7-b90f-1d33fd5a3f51
+                        providerId: '000478'
+                        locationId: '000477'
+                  - inspectionAreaId: urgent
+                    reports:
+                      - inspectionId: SPL-1-INS
+                        reportLinkId: 4011670d-e5f6-4198-adf4-944adbe936fc
+                        providerId: '000476'
+                        locationId: '000477'
+                  - inspectionAreaId: accident
+                    reports:
+                      - inspectionId: SPL-4-INS
+                        reportLinkId: 025c6e12-a371-43d8-8816-efc4c053b157
+                        providerId: '000476'
+                        locationId: '000477'
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: No Locations found on the given Location ID
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/providers/{id}/inspection-areas':
+    get:
+      tags:
+        - Syndication
+        - Provider
+        - Inspection Areas
+      summary: Get Provider Inspection Areas By Provider Id
+      description: 'Retrieve the list of Inspection Areas which have been inspected at this organisation excluding any that may have been globally retired (covering services no longer inspected by CQC). Although an Inspection area may be Superseded globally for the purpose of new inspections, it will remain active (along with the ratings for that area) at a given organisation until it has been re-inspected under the superseding inspection area(s).'
+      operationId: get-provider-inspection-areas-by-provider-id
+      parameters:
+        - name: id
+          in: path
+          description: The organisation The organisation Id of the provider.
+          required: true
+          schema:
+            type: string
+          examples:
+            id:
+              value: 1-101604141
+      responses:
+        '200':
+          description: The list of Inspection areas covered by services which have been inspected at the organisation. Inspection areas include services and population groups.
+          content:
+            application/json:
+              example:
+                inspectionAreas:
+                  - inspectionAreaId: accident
+                    inspectionAreaName: Urgent care centre
+                    status: Inactive
+                    endDate: '2020-12-31'
+                  - inspectionAreaId: independentmaternity
+                    inspectionAreaName: Maternity
+                    status: Active (Rated)
+                  - inspectionAreaId: maternity
+                    inspectionAreaName: Maternity and gynaecology
+                    status: Superseded
+                    supersededBy:
+                      - independentmaternity
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: No Providers found on the given Provider ID
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  /inspection-areas:
+    get:
+      tags:
+        - Syndication
+        - Inspection Areas
+      summary: Get Inspection Areas
+      description: Get the global taxonomy of all CQC Inspection Areas including their current status for new inspections.
+      operationId: get-inspection-areas
+      responses:
+        '200':
+          description: The Inspection Areas response.
+          content:
+            application/json:
+              example:
+                lastUpdate: '2019-01-30T12:13:45.0000000+00:00'
+                inspectionAreas:
+                  - inspectionAreaId: access
+                    inspectionAreaName: Access to the service
+                    inspectionAreaType: Inspection Service
+                    status: Retired
+                    endDate: '2018-10-01'
+                  - inspectionAreaId: accident
+                    inspectionAreaName: Urgent care centre
+                    inspectionAreaType: Inspection Service
+                    status: Superseded
+                    supersededBy:
+                      - urgent
+                  - inspectionAreaId: ambulance
+                    inspectionAreaName: Ambulance services
+                    inspectionAreaType: Inspection Service
+                    status: Retired
+                    endDate: '2018-10-01'
+                  - inspectionAreaId: care
+                    inspectionAreaName: Medical care (including older people's care)
+                    inspectionAreaType: Inspection Service
+                    status: Active
+                    inspectionCategories:
+                      - inspectionCategoryName: Acute hospital - NHS non-specialist
+                        code: H1
+                        coreFlag: Y
+                      - inspectionCategoryName: Acute hospital - NHS specialist
+                        code: H2
+                        coreFlag: Y
+                      - inspectionCategoryName: Acute hospital - Independent non-specialist
+                        code: H3
+                        coreFlag: Y
+                      - inspectionCategoryName: Acute hospital - Independent specialist
+                        code: H4
+                        coreFlag: Y
+                  - inspectionAreaId: child
+                    inspectionAreaName: Child and adolescent mental health services
+                    inspectionAreaType: Inspection Service
+                    status: Superseded
+                    supersededBy:
+                      - mhadolescent
+                  - inspectionAreaId: mhadolescent
+                    inspectionAreaName: Child and adolescent mental health wards
+                    inspectionAreaType: Inspection Service
+                    status: Active
+                    inspectionCategories:
+                      - inspectionCategoryName: Mental health - community & hospital - independent
+                        code: H8
+                        coreFlag: Y
+                      - inspectionCategoryName: Mental health - community & residential - NHS
+                        code: H9
+                        coreFlag: Y
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/reports/{inspection_report_link_id}/{related_document_type}':
+    get:
+      tags:
+        - Syndication
+        - Reports
+      summary: Get Reports
+      description: Retrieve a PDF file or its text content.
+      operationId: get-reports
+      parameters:
+        - name: inspection_report_link_id
+          in: path
+          description: A UUID for obtaining the main inspection report.
+          required: true
+          schema:
+            type: string
+          examples:
+            inspection_report_link_id:
+              value: a7ae67ad-331a-43c8-b343-c24bf719df94
+        - name: related_document_type
+          in: path
+          description: 'An optional qualifier to retrieve a document related to the main report. This parameter is the Related Document Type found from the relatedDocuments response object. e.g. "Use%20of%20Resources". When this parameter is absent, the main report for the inspection is returned.'
+          required: true
+          schema:
+            type: string
+          examples:
+            related_document_type:
+              value: Use of Resources
+      responses:
+        '200':
+          description: The API file specifies body for this request but it does not specify the data model.
+          content:
+            application/pdf:
+              example: /reports/a7ae67ad-331a-43c8-b343-c24bf719df94
+            text/plain:
+              example: Overall rating for this service Good Is the service safe? Good Is the service effective? Good Is the service caring? Good Is the service responsive? Good Is the service well-led? Requires Improvement Ratings
+        '400':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Bad Request
+        '404':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Report Not Found
+        '500':
+          description: An error response.
+          content:
+            application/json:
+              example:
+                message: Internal server error.
+  '/reports/{inspection_report_link_id}':
+    get:
+      summary: Get Reports Without Use of Resource
+      description: Retrieve a PDF file or its text content. without the Use of Resource Path Parameter
+      operationId: get-reports-without-use-of-resource
+      parameters:
+        - name: inspection_report_link_id
+          in: path
+          required: true
+          schema:
+            type: ''
+      responses:
+        '200':
+          description: ''
+components:
+  schemas:
+    Changes-Response:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        totalPages:
+          type: integer
+        perPage:
+          type: integer
+        previousPageUri:
+          type: string
+        nextPageUri:
+          type: string
+        firstPageUri:
+          type: string
+        lastPageUri:
+          type: string
+        changes:
+          type: array
+          items:
+            type: string
+        uri:
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

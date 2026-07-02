@@ -40,7 +40,7 @@ showcase / per-site page.** We want the provider ↔ company mapping.
 
 ```bash
 curl -s "https://api.service.cqc.org.uk/public/v1/providers/1-116865921" \
-  -H "Ocp-Apim-Subscription-Key: d8b7af065705408b89737e290a4515cf" | jq .
+  -H "Ocp-Apim-Subscription-Key: <CQC_SUBSCRIPTION_KEY>" | jq .
 ```
 
 Fields that matter for the LinkedIn match (verified response for `1-116865921`):

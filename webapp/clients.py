@@ -11,8 +11,17 @@ import os
 from cqc import CQC
 from phantombuster import Phantombuster
 
-PB_KEY = os.environ.get("PHANTOMBUSTER_API_KEY", "dVCrfE41LEd155tAsxjgMJ1kysU65VD1HOtdAT2Z0bs")
-CQC_KEY = os.environ.get("CQC_SUBSCRIPTION_KEY", "d8b7af065705408b89737e290a4515cf")
+
+def _require(name: str) -> str:
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(f"{name} is required — set it in the environment / .env")
+    return value
+
+
+# Secrets come from the environment only — never hardcode keys (this is a public repo).
+PB_KEY = _require("PHANTOMBUSTER_API_KEY")
+CQC_KEY = _require("CQC_SUBSCRIPTION_KEY")
 
 pb = Phantombuster(PB_KEY)
 cqc = CQC(CQC_KEY, partner_code="phantombuster-lib")

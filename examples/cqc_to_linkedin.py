@@ -22,8 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from cqc import CQC
 from phantombuster import Phantombuster, parse_json_field
 
-CQC_KEY = os.environ.get("CQC_SUBSCRIPTION_KEY", "d8b7af065705408b89737e290a4515cf")
-PB_KEY = os.environ.get("PHANTOMBUSTER_API_KEY", "dVCrfE41LEd155tAsxjgMJ1kysU65VD1HOtdAT2Z0bs")
+CQC_KEY = os.environ.get("CQC_SUBSCRIPTION_KEY", "")
+PB_KEY = os.environ.get("PHANTOMBUSTER_API_KEY", "")
 PHANTOM = os.path.join(os.path.dirname(__file__), "linkedin_company_id.js")
 # The agent whose identity (li_at cookie) we borrow when none is supplied via env.
 SOURCE_AGENT = os.environ.get("PB_SOURCE_AGENT", "474380569535162")

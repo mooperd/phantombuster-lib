@@ -24,7 +24,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from phantombuster import Phantombuster
 
 API_KEY = os.environ.get(
-    "PHANTOMBUSTER_API_KEY", "dVCrfE41LEd155tAsxjgMJ1kysU65VD1HOtdAT2Z0bs"
+    "PHANTOMBUSTER_API_KEY", ""
 )
 DB_URL = os.environ.get("DB_URL", "sqlite:///ephemeral_leads.db")
 

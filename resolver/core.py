@@ -1,8 +1,18 @@
-"""CQC provider -> LinkedIn resolution, built on a single persistent resolver agent.
+"""CQC provider -> LinkedIn numeric company id resolution.
 
-Design (see the discussion in chat): we keep ONE managed Phantombuster agent and launch
-a new container per request. The returned ``containerId`` is the job handle and is
-independently queryable, so the API holds no job state — Phantombuster does.
+The single home for the resolver logic that used to live in both ``webapp/resolver.py``
+and ``examples/cqc_to_linkedin.py`` (with two divergent ``.js`` phantoms). It ships the
+canonical resolver phantom as package data and exposes both launch strategies:
+
+* :func:`launch_resolution` — fire one container on a *managed*, persistent resolver
+  agent (``get_or_create_resolver``) and return the ``containerId`` job handle. The
+  caller polls Phantombuster; no job state is held here. Used by the webapp.
+* :func:`resolve_ephemeral` — a one-shot create->run->wait->delete via
+  ``Phantombuster.run_ephemeral``; returns the ``RunResult`` directly. Used by the
+  CLI examples.
+
+Both drive the same ``resolver_phantom.js`` (UK-HQ geo facet + company About-page
+scrape), so the two paths can no longer diverge.
 """
 
 from __future__ import annotations
@@ -20,6 +30,8 @@ SOURCE_AGENT = os.environ.get("PB_SOURCE_AGENT", "474380569535162")
 
 
 def linkedin_session_cookie(pb) -> str:
+    """The li_at cookie: from ``LINKEDIN_SESSION_COOKIE`` if set, else borrowed from
+    the identity stored on the ``SOURCE_AGENT`` agent."""
     cookie = os.environ.get("LINKEDIN_SESSION_COOKIE")
     if cookie:
         return cookie
@@ -68,11 +80,28 @@ def search_term(provider: dict) -> str:
 
 
 def launch_resolution(pb, keywords: str) -> str:
-    """Launch a resolution container; returns the containerId (job handle)."""
+    """Launch a resolution container on the managed agent; returns the containerId."""
     agent_id = get_or_create_resolver(pb)
     # Pass the argument directly (not bonusArgument): the agent has no saved base
     # argument to merge into, and each request needs its own cookie + keywords.
     return pb.launch(
         agent_id,
         argument={"sessionCookie": linkedin_session_cookie(pb), "keywords": keywords},
+    )
+
+
+def resolve_ephemeral(pb, keywords: str, *, cookie: str | None = None, timeout: int = 280, poll: int = 6):
+    """Resolve in one shot via an ephemeral phantom (create->run->wait->delete).
+
+    Returns the phantombuster ``RunResult``; ``RunResult.result[0]`` is the match
+    (``companyId``, ``vanity``, ``name``, plus About-page fields), if any.
+    """
+    with open(PHANTOM_PATH) as fh:
+        code = fh.read()
+    return pb.run_ephemeral(
+        name="cqc-to-linkedin",
+        code=code,
+        argument={"sessionCookie": cookie or linkedin_session_cookie(pb), "keywords": keywords},
+        timeout=timeout,
+        poll=poll,
     )

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "phantombuster-lib"
+version = "0.1.0"
+description = "Phantombuster + CQC Syndication API clients and a CQC provider -> LinkedIn company-id resolver"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+# The demo Flask webapp under webapp/ is not shipped in the wheel; these are only
+# needed to run it from a source checkout.
+webapp = [
+    "Flask>=3.0",
+    "SQLAlchemy>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mooperd/phantombuster-lib"
+
+# Flat layout: three top-level packages. webapp/ and examples/ are demo/dev only
+# and deliberately excluded from the distribution.
+[tool.hatch.build.targets.wheel]
+packages = ["phantombuster", "cqc", "resolver"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "phantombuster",
+    "cqc",
+    "resolver",
+    "README.md",
+    "pyproject.toml",
+]

@@ -5,3 +5,8 @@ venv/
 .env
 .DS_Store
 .cache/
+# build / packaging artifacts
+uv.lock
+dist/
+build/
+*.egg-info/

@@ -93,8 +93,9 @@ Run it end-to-end (CQC → id) with the packaged example:
 python examples/cqc_to_linkedin.py 1-116865921
 ```
 
-which drives [examples/linkedin_company_id.js](examples/linkedin_company_id.js) via
-`Phantombuster.run_ephemeral(...)`. **Tested output:**
+which drives [resolver/resolver_phantom.js](resolver/resolver_phantom.js) via
+`resolver.resolve_ephemeral(...)` (a thin wrapper over `Phantombuster.run_ephemeral`).
+**Tested output:**
 
 ```
 CQC provider 1-116865921

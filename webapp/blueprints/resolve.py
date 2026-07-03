@@ -2,9 +2,10 @@
 
 from flask import Blueprint, jsonify, render_template, request
 
+import resolver
+
 from phantombuster import PhantombusterError
 from webapp.clients import cqc, pb
-from webapp import resolver
 
 bp = Blueprint("resolve", __name__)
 

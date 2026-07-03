@@ -20,27 +20,11 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from cqc import CQC
-from phantombuster import Phantombuster, parse_json_field
+from phantombuster import Phantombuster
+from resolver import resolve_ephemeral, search_term
 
 CQC_KEY = os.environ.get("CQC_SUBSCRIPTION_KEY", "")
 PB_KEY = os.environ.get("PHANTOMBUSTER_API_KEY", "")
-PHANTOM = os.path.join(os.path.dirname(__file__), "linkedin_company_id.js")
-# The agent whose identity (li_at cookie) we borrow when none is supplied via env.
-SOURCE_AGENT = os.environ.get("PB_SOURCE_AGENT", "474380569535162")
-
-
-def search_term(provider: dict) -> str:
-    """Prefer the trading brand (LinkedIn lists brands, not legal names)."""
-    brand = (provider.get("brandName") or "").replace("BRAND ", "").strip()
-    return brand or provider.get("name") or ""
-
-
-def linkedin_session_cookie(pb: Phantombuster) -> str:
-    cookie = os.environ.get("LINKEDIN_SESSION_COOKIE")
-    if cookie:
-        return cookie
-    arg = parse_json_field(pb.get_agent(SOURCE_AGENT)["argument"])
-    return arg["identities"][0]["sessionCookie"]
 
 
 def main() -> None:
@@ -56,16 +40,7 @@ def main() -> None:
     print(f"  companiesHouse: {provider.get('companiesHouseNumber')}  town: {provider.get('postalAddressTownCity')}")
 
     print("Resolving LinkedIn id via ephemeral phantom (search by name, authenticated) …")
-    run = pb.run_ephemeral(
-        name="cqc-to-linkedin",
-        code=open(PHANTOM).read(),
-        argument={
-            "sessionCookie": linkedin_session_cookie(pb),
-            "keywords": term,
-        },
-        timeout=280,
-        poll=6,
-    )
+    run = resolve_ephemeral(pb, term)
 
     if not run.result:
         print("No LinkedIn match found. Console tail:")

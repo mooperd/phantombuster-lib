@@ -13,15 +13,16 @@ phantombuster/          # Phantombuster API client
 cqc/                    # CQC Syndication API client
   client.py             #   client (providers/locations/changes/reports, auto-paging)
   syndication.yaml      #   the OpenAPI spec
-webapp/                 # Flask + Bootstrap app (app factory, no custom CSS)
+resolver/               # CQC provider -> LinkedIn company-id resolver
+  core.py               #   CQC gather + managed (launch_resolution) & ephemeral paths
+  resolver_phantom.js   #   the Puppeteer phantom (UK-HQ company search + scrape), package data
+webapp/                 # Flask + Bootstrap demo app (app factory, no custom CSS) — not shipped in the wheel
   __init__.py           #   create_app(): filters, error handlers, blueprint registration
   app.py                #   dev entrypoint
   clients.py            #   shared client instances
-  resolver.py           #   CQC->LinkedIn logic (managed resolver agent, CQC gather)
-  resolver_phantom.js   #   the Puppeteer phantom (UK-HQ company search + scrape)
-  blueprints/           #   dashboard / agents / containers / resolve
+  blueprints/           #   dashboard / agents / containers / resolve (imports `resolver`)
   templates/            #   Bootstrap templates + a recursive "render everything" macro
-examples/               # runnable scripts (see below)
+examples/               # runnable scripts (see below) — not shipped in the wheel
 API-guidence.md         # Phantombuster API notes (verified live)
 EPHEMERAL-WORKFLOW.md   # create->run->extract-to-SQLite->delete pattern
 cqc-org-to-linkedin.md  # how CQC id -> LinkedIn numeric id works
@@ -29,10 +30,18 @@ cqc-org-to-linkedin.md  # how CQC id -> LinkedIn numeric id works
 
 ## Install
 
+Install the library (the `phantombuster`, `cqc`, and `resolver` packages):
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+pip install git+https://github.com/mooperd/phantombuster-lib
+# or, from a checkout:
+pip install .
+```
+
+To also run the demo Flask web app / examples from a source checkout, add the `webapp` extra:
+
+```bash
+pip install -e ".[webapp]"
 ```
 
 Keys are read from the environment, with demo fallbacks:
@@ -155,7 +164,7 @@ See [cqc-org-to-linkedin.md](cqc-org-to-linkedin.md).
 Run from the repo root with the venv active:
 
 - [examples/ephemeral_workflow.py](examples/ephemeral_workflow.py) — ephemeral phantom → SQLite.
-- [examples/cqc_to_linkedin.py](examples/cqc_to_linkedin.py) `<cqc_id>` — one-shot CQC → LinkedIn id.
-- [examples/linkedin_company_id.js](examples/linkedin_company_id.js) — the Puppeteer lookup phantom.
+- [examples/cqc_to_linkedin.py](examples/cqc_to_linkedin.py) `<cqc_id>` — one-shot CQC → LinkedIn id (via `resolver.resolve_ephemeral`).
+- [resolver/resolver_phantom.js](resolver/resolver_phantom.js) — the Puppeteer lookup phantom (shipped as package data; drives both the managed and ephemeral paths).
 - [examples/test_resolve.py](examples/test_resolve.py) `<cqc_id>` — drives the running web API; writes the full object to `.cache/<id>.json`.
 - [examples/batch_resolve_test.py](examples/batch_resolve_test.py) `[N]` — resolves N random providers in parallel to eyeball match quality.
